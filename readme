@@ -1,26 +1,161 @@
+# 🌐 Node.js REST API
 
-## 🌐 Node.js REST API
-
-A simple RESTful API built with **Express.js** and **CORS**, designed for testing network access and basic HTTP requests.  
-Fully accessible from any device on the same local network.
+A simple RESTful API built with **Express.js**, **CORS**, and **MongoDB**, designed for testing HTTP requests and network access.  
+This backend can be accessed from **any device on the same local network** and is ready for integration with frontend apps (React, Vue, etc.).
 
 ---
 
 ## 🚀 Features
 
-- Built with [Express](https://expressjs.com/)
-- CORS enabled (open access to all origins)
-- Supports JSON requests and responses
-- Accessible from any device on your local Wi-Fi
-- Ready for integration with frontend apps (React, Vue, etc.)
+- ⚙️ Built with [Express](https://expressjs.com/)
+- 🌍 CORS enabled (open access for all origins)
+- 💾 MongoDB integration (local or remote)
+- 🧩 Follows MVC project structure
+- 🧠 JSON request/response support
+- 🖼️ Image upload support (via [Multer](https://github.com/expressjs/multer))
+- 📡 Fully accessible from any device on your Wi-Fi network
 
 ---
 
-## 📦 Installation
+## 📋 Requirements
 
-Clone this repository and install dependencies:
+Before running the project, make sure you have the following installed:
+
+| Tool | Version | Description |
+|-------|----------|-------------|
+| [Node.js](https://nodejs.org/) | v18+ | JavaScript runtime |
+| [npm](https://www.npmjs.com/) | v9+ | Node package manager |
+| [MongoDB Community Edition](https://www.mongodb.com/try/download/community) | v6+ | Local database server |
+| [Git](https://git-scm.com/) | Latest | Version control |
+
+---
+
+## ⚙️ Installation
+
+### 1️⃣ Clone this repository
 
 ```bash
 git clone <your-repo-url>
 cd backend
+2️⃣ Install dependencies
+bash
+Copiar código
 npm install
+3️⃣ Configure environment variables
+Create a .env file in the project root:
+
+bash
+Copiar código
+touch .env
+Then add:
+
+env
+Copiar código
+PORT=3000
+MONGO_URI=mongodb://127.0.0.1:27017/my_database_name
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+The Cloudinary variables are only needed if you want to upload and store images in the cloud.
+For local development, MongoDB alone is enough.
+
+## 🗃️ Setting Up MongoDB Locally
+## 🧱 On Ubuntu or Debian-based systems:
+bash
+Copiar código
+sudo apt update
+sudo apt install -y mongodb
+sudo systemctl start mongodb
+sudo systemctl enable mongodb
+Verify MongoDB is running:
+
+bash
+Copiar código
+sudo systemctl status mongodb
+You should see:
+Active: active (running)
+
+You can also connect via Mongo shell:
+
+bash
+Copiar código
+mongosh
+▶️ Running the Server
+Once MongoDB is running locally:
+
+bash
+Copiar código
+npm start
+Or, for development with auto-reload (if you have nodemon installed):
+
+bash
+Copiar código
+npx nodemon server.js
+
+## 🌐 Accessing the API
+When the server starts, it will be available at:
+
+arduino
+Copiar código
+http://localhost:3000
+Or from another device on the same Wi-Fi network:
+
+perl
+Copiar código
+http://<your-local-ip>:3000
+Example:
+
+cpp
+Copiar código
+http://192.168.1.7:3000
+
+## 🧪 Testing Routes
+Example: Root route
+GET /
+
+bash
+Copiar código
+curl http://localhost:3000/
+Response:
+
+json
+Copiar código
+{ "message": "🚀 API running successfully with MongoDB and CORS enabled!" }
+Example: POST route
+POST /api/data
+
+bash
+Copiar código
+curl -X POST http://localhost:3000/api/data \
+     -H "Content-Type: application/json" \
+     -d '{"name":"Example","value":"123"}'
+Response:
+
+json
+Copiar código
+{
+  "_id": "64ab1234cdef5678abcd9012",
+  "name": "Example",
+  "value": "123",
+  "createdAt": "2025-11-08T14:30:00.000Z"
+}
+
+## 🧩 Project Structure
+bash
+Copiar código
+project/
+├── server.js             # Server entry point
+├── src/
+│   ├── app.js            # Express app setup
+│   ├── config/
+│   │   └── db.js         # MongoDB connection logic
+│   ├── controllers/
+│   │   └── dataController.js
+│   ├── models/
+│   │   └── dataModel.js
+│   └── routes/
+│       └── dataRoutes.js
+├── uploads/              # Uploaded files (if using Multer)
+├── .env                  # Environment variables
+├── package.json
+└── README.md

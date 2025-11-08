@@ -1,0 +1,26 @@
+
+## 🌐 Node.js REST API
+
+A simple RESTful API built with **Express.js** and **CORS**, designed for testing network access and basic HTTP requests.  
+Fully accessible from any device on the same local network.
+
+---
+
+## 🚀 Features
+
+- Built with [Express](https://expressjs.com/)
+- CORS enabled (open access to all origins)
+- Supports JSON requests and responses
+- Accessible from any device on your local Wi-Fi
+- Ready for integration with frontend apps (React, Vue, etc.)
+
+---
+
+## 📦 Installation
+
+Clone this repository and install dependencies:
+
+```bash
+git clone <your-repo-url>
+cd backend
+npm install

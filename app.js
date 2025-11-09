@@ -13,24 +13,25 @@ const authMiddleware = require('./middleware/authMiddleware');
 // Create Express app
 const app = express();
 
-// ✅ Configure CORS (allow requests from frontend)
-app.use(cors({
-  origin: true, // or set to your frontend URL, e.g. "http://localhost:5173"
-  credentials: true, // allows cookies if needed
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-// ✅ Parse incoming JSON and cookies
-app.use(express.json());
+// ✅ Parse cookies and JSON before anything else
 app.use(cookieParser());
+app.use(express.json());
+
+// ✅ Configure CORS properly (frontend → backend)
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // endereço exato do frontend (Vite)
+    credentials: true, // necessário para cookies HttpOnly
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 // ✅ Serve static image files from the uploads folder
-// Example: http://localhost:3000/uploads/example.jpg
 const uploadsPath = path.join(__dirname, 'uploads');
 app.use('/uploads', express.static(uploadsPath));
 
-// ✅ Root route (API status check)
+// ✅ Root route (status check)
 app.get('/', (req, res) => {
   res.json({
     message: '🚀 API running successfully with MongoDB, JWT Auth, and image upload support!',
@@ -42,7 +43,7 @@ app.get('/', (req, res) => {
 app.use('/api/data', dataRoutes);
 app.use('/api/auth', authRoutes);
 
-// ✅ Protected route example (requires JWT)
+// ✅ Example protected route (JWT required)
 app.get('/api/protected', authMiddleware, (req, res) => {
   res.json({
     message: '🔒 Protected route accessed successfully!',
@@ -55,5 +56,5 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Export app (server.js will import this)
+// Export app (used in server.js)
 module.exports = app;
